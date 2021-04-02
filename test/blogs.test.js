@@ -4,7 +4,7 @@ let page
 
 beforeEach(async () => {
   page = await Page.build()
-  await page.goto("localhost:3000")
+  await page.goto("http://localhost:3000")
 })
 
 afterEach(async () => {
@@ -14,7 +14,7 @@ afterEach(async () => {
 describe("When logged in", async () => {
   beforeEach(async () => {
     await page.login()
-    await page.evaluate(() => document.querySelector("a.btn-floating").click())
+    await page.click("a.btn-floating")
   })
 
   test("Can see blog create form", async () => {
@@ -26,7 +26,7 @@ describe("When logged in", async () => {
     beforeEach(async () => {
       await page.type(".title input", "My title")
       await page.type(".content input", "My Content")
-      await page.evaluate(() => document.querySelector("form button").click())
+      await page.click("form button")
     })
     test("Submitting takes user to review screen", async () => {
       const text = await page.getContentsOf("h5")
@@ -47,7 +47,7 @@ describe("When logged in", async () => {
 
   describe("And using invalid inputs", async () => {
     beforeEach(async () => {
-      await page.evaluate(() => document.querySelector("form button").click())
+      await page.click("form button")
     })
     test("the form shows an error message", async () => {
       const titleError = await page.getContentsOf(".title .red-text")
